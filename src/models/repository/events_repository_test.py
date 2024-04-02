@@ -4,6 +4,7 @@ import pytest
 
 db_connection_handler.connect_to_db()
 
+@pytest.mark.skip(reason="Novo registro em banco de dados")
 def test_insert_event():
     event = {
         "uuid": "meu-uuid-test",
@@ -15,9 +16,11 @@ def test_insert_event():
     response = events_repository.insert_event(event)
     print(response)
     
+# @pytest.mark.skip(reason="Não necessita")
 def test_get_event():
-    event_id = "meu-uuid-test"
+    event_id = "meu-uuid-test2"
     events_repository = EventsRepository()
     response = events_repository.get_eventy_by_id(event_id)
     print(response)
+    assert response != None
     
