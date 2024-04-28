@@ -16,7 +16,7 @@ class EventHandler:
         return HttpResponse(
             body={ "eventId": body["uuid"] },
             status_code=200
-        )
+        )        
 
     def find_by_id(self, http_request: HttpRequest) -> HttpResponse:
         event_id = http_request.param["event_id"]
@@ -32,9 +32,69 @@ class EventHandler:
                     "title": event.title,
                     "detail": event.details,
                     "slug": event.slug,
-                    "maximumAttendees": event.maximum_attendees,
+                    "address": event.address,
+                    "city": event.city,
+                    "district": event.district,
+                    "online": event.online,
+                    "location": event.location,
+                    "start_date": event.start_date,
+                    "finish_date": event.finish_date,
+                    "maximum_attendees": event.maximum_attendees,
                     "attendeesAmount": event_attendees_count["attendeesAmount"]
                 }
             },
+            status_code=200
+        )
+    
+    def find_events_actives(self, http_request: HttpRequest) -> HttpResponse:
+        events = self.__events_repository.get_events_actives()
+        formatted_events = []
+        for event in events:
+            formatted_events.append(
+                {
+                    "id": event.id,
+                    "title": event.title,
+                    "detail": event.details,
+                    "slug": event.slug,
+                    "address": event.address,
+                    "city": event.city,
+                    "district": event.district,
+                    "online": event.online,
+                    "location": event.location,
+                    "start_date": event.start_date,
+                    "finish_date": event.finish_date,
+                    "maximum_attendees": event.maximum_attendees,
+                }
+            )
+
+        return HttpResponse(
+            body={ "events": formatted_events },
+            status_code=200
+        )
+    
+    def find_events_by_user(self, http_request: HttpRequest) -> HttpResponse:
+        user_id = http_request.param["user_id"]
+        events = self.__events_repository.get_events_by_user(user_id=user_id)
+        formatted_events = []
+        for event in events:
+            formatted_events.append(
+                {
+                    "id": event.id,
+                    "title": event.title,
+                    "detail": event.details,
+                    "slug": event.slug,
+                    "address": event.address,
+                    "city": event.city,
+                    "district": event.district,
+                    "online": event.online,
+                    "location": event.location,
+                    "start_date": event.start_date,
+                    "finish_date": event.finish_date,
+                    "maximum_attendees": event.maximum_attendees,
+                }
+            )
+
+        return HttpResponse(
+            body={ "events": formatted_events },
             status_code=200
         )

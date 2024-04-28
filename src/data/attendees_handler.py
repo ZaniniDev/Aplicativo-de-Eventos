@@ -19,7 +19,7 @@ class AttendeesHandler:
         event_attendees_count = self.__events_repository.count_event_attendees(event_id)
         if (
             event_attendees_count["attendeesAmount"]
-            and event_attendees_count["maximumAttendees"] < event_attendees_count["attendeesAmount"]
+            and event_attendees_count["maximum_attendees"] < event_attendees_count["attendeesAmount"]
         ): raise HttpConflictError("Evento Lotado")
 
         body["uuid"] = str(uuid.uuid4())

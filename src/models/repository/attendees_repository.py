@@ -16,7 +16,9 @@ class AttendeesRepository:
                         id=attendde_info.get("uuid"),
                         name=attendde_info.get("name"),
                         email=attendde_info.get("email"),
-                        event_id=attendde_info.get("event_id")
+                        phone=attendde_info.get("phone"),
+                        event_id=attendde_info.get("event_id"),
+                        user_id=attendde_info.get("user_id"),
                     )
                 )
                 database.session.add(attendee)
@@ -53,7 +55,7 @@ class AttendeesRepository:
             attendees = (
                 database.session
                     .query(Attendees)
-                    .outerjoin(CheckIns, CheckIns.attendeeId==Attendees.id)
+                    .outerjoin(CheckIns, CheckIns.attendee_id==Attendees.id)
                     .filter(Attendees.event_id==event_id)
                     .with_entities(
                         Attendees.id,
