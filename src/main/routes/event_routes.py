@@ -44,3 +44,23 @@ def get_event(event_id):
     except Exception as exception:
         http_response = handle_error(exception)
         return jsonify(http_response.body), http_response.status_code
+
+@event_route_bp.route("/activesEvents", methods=["GET"])
+def get_actives_events():
+    
+    if 'session_uuid' not in session:
+        session['session_uuid'] = str(uuid.uuid4())
+        user_agent = request.headers.get('User-Agent')
+        remote_addr = request.remote_addr        
+        user_repository = UsersRepository()
+        infos_user = {"uuid": session['session_uuid'], "name": "Visitante", "email": session['session_uuid']+"@"+remote_addr+"@"+user_agent}
+        user_repository.insert_user(infos_user)     
+         
+    try:
+        event_handler = EventHandler()
+        http_request = HttpRequest()
+        http_response = event_handler.find_events_actives(http_request)
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_error(exception)
+        return jsonify(http_response.body), http_response.status_code

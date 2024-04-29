@@ -79,6 +79,7 @@ class EventHandler:
                     "start_date": event.start_date,
                     "finish_date": event.finish_date,
                     "maximum_attendees": event.maximum_attendees,
+                    "owner_event": event.user_id
                 }
             )
 
