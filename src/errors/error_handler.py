@@ -20,5 +20,6 @@ def handle_error(error: Exception) -> HttpResponse:
                 "title": "error",
                 "details": str(error)
             }]
-        }
+        },
+        status_code=400
     )

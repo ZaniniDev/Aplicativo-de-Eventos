@@ -3,6 +3,7 @@ from src.models.repository.events_repository import EventsRepository
 from src.http_types.http_request import HttpRequest
 from src.http_types.http_response import HttpResponse
 from src.errors.error_types.http_not_found import HttpNotFoundError
+from datetime import datetime
 
 class EventHandler:
     def __init__(self) -> None:
@@ -10,7 +11,21 @@ class EventHandler:
 
     def register(self, http_request: HttpRequest) -> HttpResponse:
         body = http_request.body
+        print(body)
         body["uuid"] = str(uuid.uuid4())
+        format_datetime = "%d/%m/%Y %H:%M"    
+        try:             
+            body["slug"] = body["title"] + " " + body["start_date"]
+            body["start_date"] = datetime.strptime(body["start_date"], format_datetime)
+            body["finish_date"] = datetime.strptime(body["finish_date"], format_datetime)
+        except Exception as exception:
+            msg_error = str(exception)
+            print(msg_error)
+            return HttpResponse(
+                body={"message": "A data precisa estar no formato dd/MM/yyyy hh:mm !"},
+                status_code=400
+            )
+        
         self.__events_repository.insert_event(body)
 
         return HttpResponse(

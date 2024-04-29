@@ -1,5 +1,6 @@
 from typing import Dict, List
 from src.models.settings.connection import db_connection_handler
+from src.models.entities.users import Users
 from src.models.entities.events import Events
 from src.models.entities.attendees import Attendees
 from sqlalchemy.exc import IntegrityError
@@ -30,10 +31,14 @@ class EventsRepository:
                 database.session.commit()
 
                 return eventsInfo
-            except IntegrityError:
+            except IntegrityError as e:
+                print(event)
+                print("erro aqui")
+                print(e)
                 raise HttpConflictError('Evento ja cadastrado!')
             except Exception as exception:
                 database.session.rollback()
+                print(exception)
                 raise exception
 
     def get_event_by_id(self, event_id: str) -> Events:

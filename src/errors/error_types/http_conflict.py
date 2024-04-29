@@ -3,4 +3,4 @@ class HttpConflictError(Exception):
         super().__init__(message)
         self.message = message
         self.name = "Conflict"
-        self.status_code = 409
+        self.status_code = 400

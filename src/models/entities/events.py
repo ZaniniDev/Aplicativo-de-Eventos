@@ -19,4 +19,10 @@ class Events(Base):
     user_id = Column(String, ForeignKey("users.id"))
     
     def __repr__(self):
-        return f"Events [title={self.title}, maximum_attendees={self.maximum_attendees}]"
+        return (f"Events [id={self.id}, title={self.title}, slug={self.slug}, "
+                f"start_date={self.start_date}, finish_date={self.finish_date}, "
+                f"details={self.details}, address={self.address}, city={self.city}, "
+                f"district={self.district}, online={self.online}, "
+                f"location={self.location}, maximum_attendees={self.maximum_attendees}, "
+                f"user_id={self.user_id}]")
+     
